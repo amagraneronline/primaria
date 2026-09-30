@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>La Liga de las Palabras · Sinónimos y Antónimos · 5.º Primaria</title>
+<style>
+  :root{
+    --bg:#f6f7fb; --panel:#ffffff; --ink:#1e2430; --muted:#657086;
+    --primary:#5a54d6; --primary2:#776ef1; --ok:#198754; --bad:#c0392b;
+    --line:#dde2ee; --soft:#eef0ff; --gold:#c99700; --silver:#6f7a88; --bronze:#9c5b2e;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,#f4f6ff 0,#fbfcff 28%,#f6f7fb 100%);color:var(--ink)}
+  button,input{font:inherit}
+  button{cursor:pointer}
+  .wrap{max-width:1100px;margin:0 auto;padding:20px}
+  .hero{background:linear-gradient(135deg,#514bc9,#7b72f1);color:white;border-radius:24px;padding:24px;display:grid;grid-template-columns:1.4fr .8fr;gap:20px;align-items:center;box-shadow:0 14px 35px rgba(74,68,188,.18)}
+  .hero h1{margin:0 0 8px;font-size:clamp(1.8rem,4vw,3rem);line-height:1.02}
+  .hero p{margin:0;max-width:720px;opacity:.95}
+  .hero .mini{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);border-radius:18px;padding:16px}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+  .stat{background:white;color:var(--ink);border-radius:14px;padding:10px;text-align:center}
+  .stat b{display:block;font-size:1.2rem;color:var(--primary)}
+  .progressWrap{margin:18px 0 0}
+  .progressTop{display:flex;justify-content:space-between;gap:10px;align-items:center;font-weight:800}
+  .progress{height:16px;background:#e7e9f2;border-radius:999px;overflow:hidden;border:1px solid rgba(0,0,0,.04)}
+  .bar{height:100%;width:0;background:linear-gradient(90deg,#5a54d6,#8e86ff);transition:width .4s ease}
+  .rewards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}
+  .reward{background:var(--panel);border:2px solid var(--line);border-radius:18px;padding:14px;display:flex;gap:12px;align-items:center;transition:.25s}
+  .reward.locked{opacity:.48;filter:grayscale(.7)}
+  .reward.unlocked{border-color:#d7c05a;box-shadow:0 8px 24px rgba(145,114,0,.12)}
+  .medal{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font-size:1.6rem;background:#f0f1f5;flex:none}
+  .reward.bronze .medal{background:#f3dfcf;color:var(--bronze)}
+  .reward.silver .medal{background:#e8ecf2;color:var(--silver)}
+  .reward.gold .medal{background:#fff4bf;color:var(--gold)}
+  .reward strong{display:block}
+  .reward small{color:var(--muted)}
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 12px}
+  .tab{border:1px solid var(--line);background:white;border-radius:999px;padding:10px 14px;font-weight:800;color:#353d4b}
+  .tab.active{background:var(--primary);color:white;border-color:var(--primary)}
+  .tab.done::after{content:' ✓';color:var(--ok)}
+  .tab.active.done::after{color:white}
+  .panel{background:white;border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:0 10px 26px rgba(31,41,80,.06);margin-bottom:18px}
+  .panel h2{margin:0 0 8px}
+  .lead{color:var(--muted);margin:0 0 18px}
+  .instructions{background:#f7f8fe;border:1px dashed #c9ceea;border-radius:14px;padding:12px;margin-bottom:16px;color:#505a6d}
+  .wordbank{display:flex;gap:10px;flex-wrap:wrap;min-height:68px;padding:12px;background:#f8f9fc;border:1px solid var(--line);border-radius:16px}
+  .chip{border:2px solid #d9def0;background:white;border-radius:12px;padding:10px 13px;font-weight:800;min-height:44px;box-shadow:0 3px 0 #dfe3ee;user-select:none;touch-action:manipulation}
+  .chip:focus{outline:3px solid #b8b5ff;outline-offset:2px}
+  .chip.selected{border-color:var(--primary);background:var(--soft);transform:translateY(-1px)}
+  .chip.good{border-color:#87d4af;background:#ecfbf4;box-shadow:none}
+  .chip.bad{border-color:#e1a29b;background:#fff0ee;box-shadow:none}
+  .zones{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+  .zone{border:2px dashed #b9c0d6;border-radius:18px;min-height:145px;padding:14px;background:#fbfcff}
+  .zone h3{margin:0 0 10px;font-size:1rem}
+  .zone.active-target{border-color:var(--primary);background:#f5f4ff}
+  .droparea{display:flex;flex-wrap:wrap;gap:8px}
+  .matchGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .matchCol{display:grid;gap:9px}
+  .matchBtn{border:2px solid var(--line);background:white;border-radius:13px;padding:11px;text-align:left;min-height:46px;font-weight:800}
+  .matchBtn.selected{border-color:var(--primary);background:var(--soft)}
+  .matchBtn.good{border-color:#7fcba8;background:#ecfbf4;color:#145c3d}
+  .matchBtn.badflash{animation:shake .24s linear 2;border-color:#db8f86;background:#fff1ef}
+  @keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+  .question{border:1px solid var(--line);border-radius:16px;padding:14px;margin:10px 0;background:#fcfcfe}
+  .question p{margin:0 0 10px;font-weight:800}
+  .opts{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+  .opt{border:2px solid var(--line);background:white;border-radius:12px;padding:10px;min-height:44px;font-weight:700}
+  .opt:disabled{cursor:default}
+  .opt.good{border-color:#73c69f;background:#eafaf3}
+  .opt.bad{border-color:#de938b;background:#fff0ee}
+  .sentence{font-size:1.05rem;line-height:1.55}
+  .sentence select{padding:8px;border-radius:10px;border:1px solid #bac2d4;background:white;min-width:150px}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+  .btn{border:none;border-radius:12px;padding:11px 15px;font-weight:900;min-height:44px}
+  .btn.primary{background:var(--primary);color:white}
+  .btn.secondary{background:#eef0f7;color:#31394a}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .feedback{margin-top:14px;border-radius:14px;padding:12px 14px;font-weight:800;display:none}
+  .feedback.show{display:block}
+  .feedback.ok{background:#e9f8f0;color:#175d3d;border:1px solid #a4d8bf}
+  .feedback.warn{background:#fff4ea;color:#7b4417;border:1px solid #f0cda8}
+  .feedback.bad{background:#fff0ee;color:#7c2e27;border:1px solid #eab1aa}
+  .finalBox{text-align:center;padding:16px 10px}
+  .big{font-size:clamp(2.2rem,7vw,5rem);margin:8px 0}
+  .scoreRing{width:145px;height:145px;border-radius:50%;margin:10px auto 16px;display:grid;place-items:center;background:conic-gradient(var(--primary) 0deg,#e5e7ef 0deg);position:relative}
+  .scoreRing::after{content:'';position:absolute;inset:13px;background:white;border-radius:50%}
+  .scoreRing span{position:relative;z-index:2;font-size:1.8rem;font-weight:950;color:var(--primary)}
+  .smallNote{font-size:.92rem;color:var(--muted)}
+  .hidden{display:none!important}
+  .toast{position:sticky;bottom:12px;margin:0 auto;width:min(720px,100%);z-index:20;background:#1d2430;color:white;padding:12px 16px;border-radius:14px;display:none;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+  .toast.show{display:block}
+  .confetti{pointer-events:none;position:absolute;inset:0;overflow:hidden;border-radius:24px}
+  @media (max-width:760px){.hero{grid-template-columns:1fr}.stats{grid-template-columns:repeat(3,1fr)}.rewards{grid-template-columns:1fr}.zones,.matchGrid{grid-template-columns:1fr}.opts{grid-template-columns:1fr}.wrap{padding:12px}.panel{padding:16px}}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap" id="app">
+  <section class="hero">
+    <div>
+      <div style="font-weight:900;letter-spacing:.08em;text-transform:uppercase;font-size:.82rem;opacity:.85">5.º de Primaria · Lengua</div>
+      <h1>La Liga de las Palabras</h1>
+      <p>Supera las misiones de <b>sinónimos</b> y <b>antónimos</b>, consigue puntos y desbloquea tus tres premios.</p>
+      <div class="progressWrap">
+        <div class="progressTop"><span>Progreso de la aventura</span><span id="progressText">0%</span></div>
+        <div class="progress" aria-label="Progreso"><div id="progressBar" class="bar"></div></div>
+      </div>
+    </div>
+    <div class="mini">
+      <b>Tu marcador</b>
+      <div class="stats">
+        <div class="stat"><b id="score">0</b><span>Puntos</span></div>
+        <div class="stat"><b id="stars">0</b><span>Estrellas</span></div>
+        <div class="stat"><b id="streak">0</b><span>Racha</span></div>
+      </div>
+      <div class="smallNote" style="margin-top:10px;color:white;opacity:.9">Cada misión se corrige automáticamente al completarla.</div>
+    </div>
+  </section>
+
+  <section class="rewards" aria-label="Premios">
+    <div class="reward bronze locked" id="reward1"><div class="medal">🥉</div><div><strong>Premio Bronce</strong><small>Se desbloquea al completar el 25%</small></div></div>
+    <div class="reward silver locked" id="reward2"><div class="medal">🥈</div><div><strong>Premio Plata</strong><small>Se desbloquea al completar el 60%</small></div></div>
+    <div class="reward gold locked" id="reward3"><div class="medal">🏆</div><div><strong>Premio Oro</strong><small>Se desbloquea al terminar la aventura</small></div></div>
+  </section>
+
+  <nav class="tabs" aria-label="Misiones">
+    <button class="tab active" data-step="0">1. Clasifica</button>
+    <button class="tab" data-step="1">2. Empareja</button>
+    <button class="tab" data-step="2">3. Elige</button>
+    <button class="tab" data-step="3">4. Completa</button>
+    <button class="tab" data-step="4">5. Reto final</button>
+  </nav>
+
+  <main>
+    <section class="panel step" data-step="0">
+      <h2>Misión 1 · Clasifica las parejas</h2>
+      <p class="lead">Arrastra cada tarjeta a <b>Sinónimos</b> o <b>Antónimos</b>. También puedes pulsar una tarjeta y después tocar la zona.</p>
+      <div class="instructions">💡 Recuerda: los <b>sinónimos</b> tienen significado igual o parecido; los <b>antónimos</b> expresan significados contrarios.</div>
+      <div class="wordbank" id="bank1"></div>
+      <div class="zones">
+        <div class="zone" data-kind="syn"><h3>🟢 Sinónimos</h3><div class="droparea" id="synZone"></div></div>
+        <div class="zone" data-kind="ant"><h3>🔵 Antónimos</h3><div class="droparea" id="antZone"></div></div>
+      </div>
+      <div id="fb1" class="feedback" aria-live="polite"></div>
+      <div class="actions"><button class="btn secondary" id="reset1">Reiniciar misión</button><button class="btn primary" id="next1" disabled>Siguiente misión →</button></div>
+    </section>
+
+    <section class="panel step hidden" data-step="1">
+      <h2>Misión 2 · Empareja sinónimos</h2>
+      <p class="lead">Pulsa una palabra de la izquierda y después su sinónimo de la derecha. Si aciertas, la pareja queda bloqueada.</p>
+      <div class="matchGrid"><div class="matchCol" id="left2"></div><div class="matchCol" id="right2"></div></div>
+      <div id="fb2" class="feedback" aria-live="polite"></div>
+      <div class="actions"><button class="btn secondary" id="reset2">Reiniciar misión</button><button class="btn primary" id="next2" disabled>Siguiente misión →</button></div>
+    </section>
+
+    <section class="panel step hidden" data-step="2">
+      <h2>Misión 3 · Elige la palabra correcta</h2>
+      <p class="lead">Responde a cada reto. El sistema te dará feedback inmediato en cada pregunta.</p>
+      <div id="quiz3"></div>
+      <div id="fb3" class="feedback" aria-live="polite"></div>
+      <div class="actions"><button class="btn secondary" id="reset3">Reiniciar misión</button><button class="btn primary" id="next3" disabled>Siguiente misión →</button></div>
+    </section>
+
+    <section class="panel step hidden" data-step="3">
+      <h2>Misión 4 · Sustituye sin cambiar el sentido</h2>
+      <p class="lead">Completa las oraciones usando un sinónimo adecuado. Al terminar todas, se corregirá automáticamente.</p>
+      <div id="sentences4"></div>
+      <div id="fb4" class="feedback" aria-live="polite"></div>
+      <div class="actions"><button class="btn secondary" id="reset4">Reiniciar misión</button><button class="btn primary" id="next4" disabled>Siguiente misión →</button></div>
+    </section>
+
+    <section class="panel step hidden" data-step="4">
+      <h2>Misión 5 · Reto final: memoria de contrarios</h2>
+      <p class="lead">Encuentra las parejas de antónimos. Pulsa dos tarjetas. Si son contrarias, quedan descubiertas.</p>
+      <div id="memory5" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px"></div>
+      <div id="fb5" class="feedback" aria-live="polite"></div>
+      <div class="actions"><button class="btn secondary" id="reset5">Reiniciar misión</button><button class="btn primary" id="finish" disabled>Ver mi premio final 🏆</button></div>
+    </section>
+
+    <section class="panel hidden" id="finalPanel">
+      <div class="finalBox">
+        <div style="font-size:1rem;font-weight:900;color:var(--muted)">AVENTURA COMPLETADA</div>
+        <div class="big" id="finalEmoji">🏆</div>
+        <h2 id="finalTitle">¡Gran trabajo!</h2>
+        <div class="scoreRing" id="scoreRing"><span id="finalScore">0</span></div>
+        <p id="finalText"></p>
+        <p class="smallNote" id="finalDetail"></p>
+        <div class="actions" style="justify-content:center"><button class="btn primary" id="restartAll">Jugar otra vez</button></div>
+      </div>
+    </section>
+  </main>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</div>
+
+<script>
+(() => {
+  const root = document.getElementById('app');
+  if (!root || root.dataset.ready) return;
+  root.dataset.ready = '1';
+  const $ = s => root.querySelector(s), $$ = s => [...root.querySelectorAll(s)];
+  const state = {step:0, score:0, stars:0, streak:0, done:[false,false,false,false,false], awarded:[false,false,false], selectedChip:null, missionScores:[0,0,0,0,0]};
+  const maxMission = [20,20,25,20,15];
+  const completedWeight = () => state.done.reduce((a,v,i)=>a+(v?maxMission[i]:0),0);
+  function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.remove('show'),2200)}
+  function updateHUD(){
+    $('#score').textContent=state.score; $('#stars').textContent=state.stars; $('#streak').textContent=state.streak;
+    const p=completedWeight(); $('#progressText').textContent=p+'%'; $('#progressBar').style.width=p+'%';
+    $$('.tab').forEach((b,i)=>b.classList.toggle('done',state.done[i]));
+    const thresholds=[25,60,100];
+    thresholds.forEach((th,i)=>{
+      const r=$('#reward'+(i+1)); const unlocked=p>=th; r.classList.toggle('locked',!unlocked);r.classList.toggle('unlocked',unlocked);
+      if(unlocked && !state.awarded[i]){state.awarded[i]=true; const names=['🥉 ¡Premio Bronce desbloqueado!','🥈 ¡Premio Plata desbloqueado!','🏆 ¡Premio Oro desbloqueado!']; toast(names[i]);}
+    });
+  }
+  function addPoints(n, correct=true){state.score=Math.max(0,state.score+n); if(correct){state.streak++; if(state.streak%3===0){state.stars++;toast('⭐ ¡Racha de 3! Ganas una estrella.')}} else state.streak=0; updateHUD()}
+  function completeMission(i, points, feedbackEl, text){
+    if(!state.done[i]){state.done[i]=true;state.missionScores[i]=points;addPoints(points,true)}
+    feedbackEl.className='feedback show '+(points>=Math.ceil(maxMission[i]*.75)?'ok':'warn');feedbackEl.textContent=text;updateHUD();
+  }
+  function gotoStep(i){state.step=i; $$('.step').forEach((s,n)=>s.classList.toggle('hidden',n!==i));$$('.tab').forEach((b,n)=>b.classList.toggle('active',n===i));root.scrollIntoView({behavior:'smooth',block:'start'})}
+  $$('.tab').forEach((b,i)=>b.addEventListener('click',()=>gotoStep(i)));
+
+  // Misión 1
+  const classItems=[
+    ['feliz – contento','syn'],['rápido – veloz','syn'],['bonito – hermoso','syn'],['empezar – comenzar','syn'],
+    ['alto – bajo','ant'],['encender – apagar','ant'],['lleno – vacío','ant'],['cerca – lejos','ant']
+  ];
+  function init1(){
+    state.selectedChip=null; $('#bank1').innerHTML='';$('#synZone').innerHTML='';$('#antZone').innerHTML='';$('#fb1').className='feedback';$('#fb1').textContent='';$('#next1').disabled=true;
+    [...classItems].sort(()=>Math.random()-.5).forEach(([text,kind],idx)=>{
+      const b=document.createElement('button');b.type='button';b.className='chip';b.textContent=text;b.draggable=true;b.dataset.kind=kind;b.dataset.id='c'+idx;
+      b.addEventListener('click',()=>{ $$('.chip').forEach(x=>x.classList.remove('selected')); state.selectedChip=b; b.classList.add('selected')});
+      b.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',b.dataset.id);state.selectedChip=b});
+      $('#bank1').appendChild(b);
+    });
+    $$('.zone').forEach(z=>{
+      z.addEventListener('dragover',e=>{e.preventDefault();z.classList.add('active-target')});z.addEventListener('dragleave',()=>z.classList.remove('active-target'));
+      z.addEventListener('drop',e=>{e.preventDefault();z.classList.remove('active-target');placeChip(z)});
+      z.addEventListener('click',e=>{if(e.target.closest('.chip'))return;placeChip(z)});
+    });
+  }
+  function placeChip(zone){if(!state.selectedChip)return; zone.querySelector('.droparea').appendChild(state.selectedChip);state.selectedChip.classList.remove('selected');state.selectedChip=null;check1IfComplete()}
+  function check1IfComplete(){
+    if($('#bank1').children.length) return;
+    let correct=0; $$('.zone').forEach(z=>[...z.querySelectorAll('.chip')].forEach(c=>{const ok=c.dataset.kind===z.dataset.kind;c.classList.toggle('good',ok);c.classList.toggle('bad',!ok);if(ok)correct++}));
+    const pts=Math.round(correct/classItems.length*20); completeMission(0,pts,$('#fb1'),`Has acertado ${correct} de ${classItems.length}. ${correct===classItems.length?'¡Clasificación perfecta!':'Observa las tarjetas en rojo y recuerda si sus significados se parecen o se oponen.'}`);$('#next1').disabled=false;
+  }
+  $('#reset1').addEventListener('click',()=>{if(!state.done[0])state.streak=0;init1();updateHUD()});$('#next1').addEventListener('click',()=>gotoStep(1));
+
+  // Misión 2
+  const pairs2=[['alegre','feliz'],['casa','hogar'],['enorme','gigante'],['terminar','acabar'],['pequeño','diminuto'],['regalo','obsequio']];
+  let selL=null, selR=null, matched2=0, errors2=0;
+  function init2(){selL=selR=null;matched2=0;errors2=0;$('#left2').innerHTML='';$('#right2').innerHTML='';$('#fb2').className='feedback';$('#next2').disabled=true;
+    pairs2.forEach(([a,b],i)=>{const x=document.createElement('button');x.type='button';x.className='matchBtn';x.textContent=a;x.dataset.id=i;x.addEventListener('click',()=>selectMatch(x,'L'));$('#left2').appendChild(x)});
+    [...pairs2].map((p,i)=>[p[1],i]).sort(()=>Math.random()-.5).forEach(([b,i])=>{const x=document.createElement('button');x.type='button';x.className='matchBtn';x.textContent=b;x.dataset.id=i;x.addEventListener('click',()=>selectMatch(x,'R'));$('#right2').appendChild(x)});
+  }
+  function selectMatch(btn,side){if(btn.disabled)return;if(side==='L'){if(selL)selL.classList.remove('selected');selL=btn}else{if(selR)selR.classList.remove('selected');selR=btn}btn.classList.add('selected');if(selL&&selR){
+      if(selL.dataset.id===selR.dataset.id){[selL,selR].forEach(x=>{x.classList.remove('selected');x.classList.add('good');x.disabled=true});matched2++;addPoints(2,true)}else{errors2++;addPoints(0,false);[selL,selR].forEach(x=>{x.classList.add('badflash');setTimeout(()=>x.classList.remove('badflash','selected'),450)});}
+      selL=selR=null;if(matched2===pairs2.length){const pts=Math.max(8,20-errors2*2);completeMission(1,pts,$('#fb2'),`¡Todas las parejas encontradas! Has cometido ${errors2} ${errors2===1?'error':'errores'} durante la misión.`);$('#next2').disabled=false}
+  }}
+  $('#reset2').addEventListener('click',init2);$('#next2').addEventListener('click',()=>gotoStep(2));
+
+  // Misión 3
+  const quiz=[
+    {q:'¿Cuál es un sinónimo de “valiente”?',o:['cobarde','atrevido','lento'],a:1},
+    {q:'¿Cuál es el antónimo de “oscuro”?',o:['claro','negro','sombrío'],a:0},
+    {q:'¿Qué palabra significa casi lo mismo que “hablar”?',o:['callar','conversar','dormir'],a:1},
+    {q:'¿Cuál es el antónimo de “difícil”?',o:['sencillo','complicado','duro'],a:0},
+    {q:'¿Cuál es un sinónimo de “enfadado”?',o:['molesto','tranquilo','alegre'],a:0}
+  ];
+  let answered3=0,correct3=0;
+  function init3(){answered3=0;correct3=0;$('#quiz3').innerHTML='';$('#fb3').className='feedback';$('#next3').disabled=true;
+    quiz.forEach((it,qi)=>{const d=document.createElement('div');d.className='question';d.innerHTML=`<p>${qi+1}. ${it.q}</p><div class="opts"></div>`;const box=d.querySelector('.opts');it.o.forEach((op,oi)=>{const b=document.createElement('button');b.type='button';b.className='opt';b.textContent=op;b.addEventListener('click',()=>answer3(qi,oi,d));box.appendChild(b)});$('#quiz3').appendChild(d)});
+  }
+  function answer3(qi,oi,box){if(box.dataset.done)return;box.dataset.done='1';answered3++;const it=quiz[qi];const bs=[...box.querySelectorAll('.opt')];bs.forEach(b=>b.disabled=true);if(oi===it.a){bs[oi].classList.add('good');correct3++;addPoints(1,true)}else{bs[oi].classList.add('bad');bs[it.a].classList.add('good');addPoints(0,false)}if(answered3===quiz.length){const pts=correct3*5;completeMission(2,pts,$('#fb3'),`Resultado: ${correct3} de ${quiz.length}. ${correct3>=4?'¡Dominas muy bien el vocabulario!':'Repasa las respuestas marcadas en verde antes de continuar.'}`);$('#next3').disabled=false}}
+  $('#reset3').addEventListener('click',init3);$('#next3').addEventListener('click',()=>gotoStep(3));
+
+  // Misión 4
+  const s4=[
+    {pre:'El corredor era muy ',target:'rápido',opts:['veloz','pesado','lento'],a:'veloz',post:' y llegó primero.'},
+    {pre:'La película fue ',target:'divertida',opts:['aburrida','entretenida','oscura'],a:'entretenida',post:' y todos rieron.'},
+    {pre:'Necesito ',target:'comenzar',opts:['terminar','iniciar','parar'],a:'iniciar',post:' la tarea ahora.'},
+    {pre:'Ese edificio es ',target:'enorme',opts:['gigantesco','minúsculo','estrecho'],a:'gigantesco',post:' y se ve desde lejos.'}
+  ];
+  function init4(){$('#sentences4').innerHTML='';$('#fb4').className='feedback';$('#next4').disabled=true;s4.forEach((it,i)=>{const d=document.createElement('div');d.className='question sentence';const sel=document.createElement('select');sel.setAttribute('aria-label','Elige un sinónimo de '+it.target);sel.innerHTML='<option value="">— elige —</option>'+it.opts.map(x=>`<option>${x}</option>`).join('');sel.addEventListener('change',check4);d.append(document.createTextNode((i+1)+'. '+it.pre+'“'+it.target+'”. Cambia “'+it.target+'” por '),sel,document.createTextNode(it.post));$('#sentences4').appendChild(d)});}
+  function check4(){const sels=[...$('#sentences4').querySelectorAll('select')];if(sels.some(s=>!s.value))return;let c=0;sels.forEach((s,i)=>{const ok=s.value===s4[i].a;s.style.borderColor=ok?'#70c79e':'#d98b82';s.style.background=ok?'#eefaf4':'#fff1ef';s.disabled=true;if(ok)c++});const pts=c*5;completeMission(3,pts,$('#fb4'),`Has elegido ${c} de ${s4.length} sinónimos correctos. ${c===s4.length?'¡Has mantenido el sentido de todas las oraciones!':'Fíjate en las opciones marcadas: un sinónimo debe conservar el significado.'}`);$('#next4').disabled=false}
+  $('#reset4').addEventListener('click',init4);$('#next4').addEventListener('click',()=>gotoStep(4));
+
+  // Misión 5 memoria de antónimos
+  const p5=[['frío','caliente'],['entrar','salir'],['subir','bajar'],['limpio','sucio'],['fuerte','débil'],['día','noche']];
+  let open5=[], matched5=0, attempts5=0, lock5=false;
+  function init5(){open5=[];matched5=0;attempts5=0;lock5=false;$('#memory5').innerHTML='';$('#fb5').className='feedback';$('#finish').disabled=true;const cards=[];p5.forEach((p,i)=>p.forEach(w=>cards.push({w,id:i})));cards.sort(()=>Math.random()-.5).forEach((c,idx)=>{const b=document.createElement('button');b.type='button';b.className='matchBtn';b.style.textAlign='center';b.style.minHeight='64px';b.textContent='❓';b.dataset.word=c.w;b.dataset.id=c.id;b.dataset.index=idx;b.addEventListener('click',()=>flip5(b));$('#memory5').appendChild(b)});}
+  function flip5(b){if(lock5||b.disabled||open5.includes(b))return;b.textContent=b.dataset.word;b.classList.add('selected');open5.push(b);if(open5.length===2){attempts5++;const [a,c]=open5;if(a.dataset.id===c.dataset.id){[a,c].forEach(x=>{x.classList.remove('selected');x.classList.add('good');x.disabled=true});open5=[];matched5++;addPoints(1,true);if(matched5===p5.length){const pts=Math.max(6,15-Math.max(0,attempts5-p5.length));completeMission(4,pts,$('#fb5'),`¡Reto final superado en ${attempts5} intentos! Has encontrado todas las parejas de antónimos.`);$('#finish').disabled=false}}else{lock5=true;addPoints(0,false);setTimeout(()=>{[a,c].forEach(x=>{x.textContent='❓';x.classList.remove('selected')});open5=[];lock5=false},650)}}}
+  $('#reset5').addEventListener('click',init5);
+
+  function showFinal(){
+    $$('.step').forEach(s=>s.classList.add('hidden'));$$('.tab').forEach(b=>b.classList.remove('active'));$('#finalPanel').classList.remove('hidden');
+    const total=Math.min(100,state.missionScores.reduce((a,b)=>a+b,0));$('#finalScore').textContent=total+'%';$('#scoreRing').style.background=`conic-gradient(var(--primary) ${total*3.6}deg,#e5e7ef 0deg)`;
+    let emoji='🥉',title='¡Buen entrenamiento!',text='Has conseguido el Premio Bronce. Repasa las palabras que más te han costado y vuelve a intentarlo.';
+    if(total>=90){emoji='🏆';title='¡Maestro/a del vocabulario!';text='Has conseguido el Premio Oro. Distingues y utilizas sinónimos y antónimos con mucha seguridad.'}
+    else if(total>=70){emoji='🥈';title='¡Gran dominio!';text='Has conseguido el Premio Plata. Estás muy cerca del nivel máximo.'}
+    $('#finalEmoji').textContent=emoji;$('#finalTitle').textContent=title;$('#finalText').textContent=text;$('#finalDetail').textContent=`Puntuación de juego: ${state.score} puntos · Estrellas: ${state.stars} · Resultado de misiones: ${total}/100.`;
+    updateHUD(); $('#finalPanel').scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  $('#finish').addEventListener('click',showFinal);
+  $('#restartAll').addEventListener('click',()=>{state.step=0;state.score=0;state.stars=0;state.streak=0;state.done=[false,false,false,false,false];state.awarded=[false,false,false];state.missionScores=[0,0,0,0,0];$$('.reward').forEach(r=>{r.classList.add('locked');r.classList.remove('unlocked')});$('#finalPanel').classList.add('hidden');init1();init2();init3();init4();init5();gotoStep(0);updateHUD()});
+
+  init1();init2();init3();init4();init5();updateHUD();
+})();
+</script>
+</body>
+</html>

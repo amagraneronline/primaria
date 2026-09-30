@@ -1,0 +1,1073 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#173B7A" />
+  <title>Tema 1 · Elecciones a la vista · 5.º Primaria</title>
+  <style>
+    :root{
+      --ink:#183153;
+      --muted:#5f6f82;
+      --paper:#fffdf8;
+      --bg:#f3f7ff;
+      --blue:#175cd3;
+      --blue-2:#dceaff;
+      --green:#16824f;
+      --green-2:#e2f7eb;
+      --orange:#c65d00;
+      --orange-2:#fff0dc;
+      --purple:#6f42c1;
+      --purple-2:#eee6ff;
+      --red:#b42318;
+      --red-2:#ffe7e3;
+      --yellow:#ffca3a;
+      --shadow:0 10px 30px rgba(30, 64, 175, .10);
+      --radius:22px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: ui-rounded, "Nunito", "Trebuchet MS", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at 10% 0%, #e3efff 0 18%, transparent 19%),
+        radial-gradient(circle at 100% 10%, #fff3ce 0 15%, transparent 16%),
+        var(--bg);
+      line-height:1.55;
+    }
+
+    button, select, input, textarea{font:inherit}
+    button{cursor:pointer}
+    button:focus-visible, select:focus-visible, input:focus-visible, textarea:focus-visible, [tabindex]:focus-visible{
+      outline:4px solid #8cc8ff;
+      outline-offset:3px;
+    }
+
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:50;
+      background:rgba(255,255,255,.96);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid #d7e3f7;
+      padding:.8rem 1rem;
+    }
+
+    .topbar-inner{
+      max-width:1150px;
+      margin:auto;
+      display:grid;
+      grid-template-columns:1fr minmax(220px, 420px) auto;
+      gap:1rem;
+      align-items:center;
+    }
+
+    .brand{font-weight:900;font-size:clamp(1rem,2vw,1.2rem)}
+    .progress-wrap{display:grid;gap:.3rem}
+    .progress-label{font-size:.85rem;color:var(--muted);font-weight:800}
+    .progress-track{
+      height:14px;border-radius:999px;background:#e8eef8;overflow:hidden;border:1px solid #d5e0f0;
+    }
+    .progress-bar{
+      height:100%;width:0%;
+      background:linear-gradient(90deg,#25a06a,#56c596);
+      transition:width .45s ease;
+    }
+    .stars{
+      background:#fff7d6;
+      color:#6d5200;
+      border:1px solid #efd268;
+      border-radius:999px;
+      padding:.45rem .8rem;
+      font-weight:900;
+      white-space:nowrap;
+    }
+
+    main{max-width:1150px;margin:auto;padding:1.2rem}
+    .hero{
+      margin:1rem 0 1.6rem;
+      background:linear-gradient(135deg,#173b7a,#246be4 60%,#3b8bf5);
+      color:white;
+      border-radius:28px;
+      padding:clamp(1.4rem,4vw,3rem);
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    .hero::after{
+      content:"🗳️";
+      position:absolute;right:4%;bottom:-20px;
+      font-size:clamp(5rem,14vw,10rem);
+      opacity:.18;transform:rotate(-8deg)
+    }
+    .eyebrow{
+      display:inline-block;background:#fff2b8;color:#5a4300;
+      padding:.35rem .7rem;border-radius:999px;font-weight:900;font-size:.88rem;
+    }
+    h1{font-size:clamp(2rem,5vw,4rem);line-height:1.05;margin:.7rem 0}
+    .hero p{max-width:720px;font-size:clamp(1rem,2vw,1.2rem)}
+    .hero-actions{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1rem}
+    .btn{
+      border:0;border-radius:14px;padding:.75rem 1rem;font-weight:900;
+      background:var(--blue);color:white;box-shadow:0 4px 0 #0f469f;
+      transition:transform .15s ease, box-shadow .15s ease, opacity .2s;
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn:active{transform:translateY(2px);box-shadow:0 2px 0 #0f469f}
+    .btn.secondary{background:white;color:var(--blue);box-shadow:0 4px 0 #b9cdeb}
+    .btn.good{background:var(--green);box-shadow:0 4px 0 #0d673d}
+    .btn.small{padding:.45rem .7rem;border-radius:10px;font-size:.9rem}
+    .btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+
+    .module{
+      scroll-margin-top:100px;
+      background:white;
+      border:1px solid #dce6f4;
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:clamp(1rem,3vw,1.7rem);
+      margin:1.3rem 0;
+    }
+    .module-head{
+      display:flex;gap:.8rem;align-items:flex-start;margin-bottom:1rem
+    }
+    .num{
+      flex:0 0 auto;width:42px;height:42px;border-radius:14px;
+      display:grid;place-items:center;background:var(--blue);color:white;font-weight:1000;
+    }
+    h2{font-size:clamp(1.45rem,3vw,2rem);margin:.1rem 0 .25rem}
+    h3{font-size:1.18rem;margin:0 0 .7rem}
+    p{margin:.45rem 0}
+    .sub{color:var(--muted)}
+
+    .learn-grid{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) minmax(280px,.85fr);
+      gap:1rem;
+      align-items:start;
+    }
+    .pill{
+      border-radius:18px;padding:1rem;border:2px solid transparent;
+      background:var(--blue-2);border-color:#c6dbff;
+    }
+    .pill.green{background:var(--green-2);border-color:#bce9ce}
+    .pill.orange{background:var(--orange-2);border-color:#ffd8aa}
+    .pill.purple{background:var(--purple-2);border-color:#d8c9ff}
+    .pill ul{margin:.5rem 0 0;padding-left:1.25rem}
+    .pill strong{font-weight:1000}
+
+    .example-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.8rem}
+    .tag{
+      display:inline-flex;align-items:center;gap:.3rem;
+      background:white;border:1px solid #cfdced;border-radius:999px;
+      padding:.42rem .7rem;font-weight:800;
+    }
+
+    .activity{
+      margin-top:1rem;border-top:2px dashed #d7e1ef;padding-top:1rem
+    }
+    .activity-title{
+      display:flex;gap:.5rem;align-items:center;font-weight:1000;font-size:1.08rem
+    }
+    .mission{
+      display:inline-grid;place-items:center;width:28px;height:28px;
+      background:#fff7d6;border:1px solid #e9cf6c;border-radius:9px;
+    }
+    .feedback{
+      min-height:1.6rem;margin-top:.8rem;padding:.6rem .75rem;
+      border-radius:12px;font-weight:800;
+    }
+    .feedback:empty{padding:0;min-height:.4rem}
+    .feedback.ok{background:var(--green-2);color:#0e6c42;border:1px solid #a9dfbe}
+    .feedback.no{background:var(--red-2);color:#8f2118;border:1px solid #f6b6af}
+    .feedback.hint{background:var(--orange-2);color:#8a4200;border:1px solid #f4c894}
+
+    .classify-block{
+      display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin:.7rem 0 1.2rem
+    }
+    .word-bank{
+      grid-column:1/-1;
+      display:flex;flex-wrap:wrap;gap:.55rem;
+      padding:.7rem;background:#f7faff;border:1px dashed #b9cbe4;border-radius:14px;
+      min-height:58px;
+    }
+    .chip{
+      user-select:none;
+      border:2px solid #b8cce8;background:white;color:var(--ink);
+      border-radius:12px;padding:.5rem .7rem;font-weight:900;
+      box-shadow:0 3px 0 #dbe5f3;
+      touch-action:manipulation;
+    }
+    .chip.selected{border-color:var(--blue);background:#eaf2ff;transform:translateY(-2px)}
+    .dropzone{
+      min-height:110px;border:2px dashed #9fb8d9;border-radius:16px;padding:.7rem;
+      background:#fbfdff;
+    }
+    .dropzone.dragover{border-color:var(--blue);background:#eef5ff}
+    .dropzone h4{margin:.1rem 0 .5rem}
+    .dropzone .chip{margin:.2rem}
+
+    .form-grid{
+      display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem
+    }
+    .qrow{
+      background:#f8fbff;border:1px solid #dbe7f6;border-radius:14px;padding:.8rem;
+    }
+    select{
+      border:2px solid #a9bfdc;border-radius:10px;padding:.45rem;background:white;color:var(--ink)
+    }
+    select.correct{border-color:var(--green);background:var(--green-2)}
+    select.wrong{border-color:var(--red);background:var(--red-2)}
+
+    .type-cards{
+      display:grid;grid-template-columns:repeat(5,1fr);gap:.6rem;margin-top:.7rem
+    }
+    .flip{
+      min-height:110px;
+      perspective:800px;
+    }
+    .flip button{
+      width:100%;height:100%;border:0;background:transparent;padding:0;
+      color:inherit;
+    }
+    .flip-inner{
+      position:relative;width:100%;height:100%;min-height:110px;
+      transform-style:preserve-3d;transition:transform .45s;
+    }
+    .flip.flipped .flip-inner{transform:rotateY(180deg)}
+    .flip-face{
+      position:absolute;inset:0;border-radius:16px;padding:.7rem;
+      display:grid;place-items:center;text-align:center;
+      backface-visibility:hidden;border:2px solid #d4e0ef;background:white;font-weight:900;
+    }
+    .flip-back{transform:rotateY(180deg);background:var(--purple-2);border-color:#d3c3ff;font-size:.9rem}
+
+    .match-grid{
+      display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-top:.8rem
+    }
+    .match-col{display:grid;gap:.55rem}
+    .match-btn{
+      border:2px solid #aabfda;background:white;border-radius:13px;
+      padding:.65rem;text-align:left;font-weight:900;color:var(--ink);
+    }
+    .match-btn.active{border-color:var(--blue);background:#eaf2ff}
+    .match-btn.matched{border-color:var(--green);background:var(--green-2);color:#0e6c42}
+    .shake{animation:shake .28s linear 1}
+    @keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+    .reorder{
+      list-style:none;padding:0;margin:.8rem 0;display:grid;gap:.55rem
+    }
+    .reorder li{
+      display:grid;grid-template-columns:auto 1fr auto;gap:.7rem;align-items:center;
+      background:#f8fbff;border:2px solid #d7e4f3;border-radius:14px;padding:.7rem;
+    }
+    .handle{font-size:1.25rem;color:#607792;cursor:grab}
+    .move-buttons{display:flex;gap:.35rem}
+    .move-buttons button{
+      border:1px solid #b5c8df;background:white;border-radius:9px;padding:.3rem .5rem
+    }
+
+    .poster-demo{
+      display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-top:.8rem
+    }
+    .poster{
+      background:#fff7d6;border:4px solid #173b7a;border-radius:18px;padding:1rem;text-align:center;
+      box-shadow:6px 6px 0 #d7e3f6
+    }
+    .poster .poster-title{font-size:1.5rem;font-weight:1000;color:#173b7a}
+    .poster ul{text-align:left}
+    .checklist{
+      background:#f8fbff;border:1px solid #dbe7f6;border-radius:16px;padding:.9rem
+    }
+
+    .quiz-shell{
+      background:linear-gradient(135deg,#fff7d6,#ffe9a6);
+      border:2px solid #e9cf6c;border-radius:18px;padding:1rem
+    }
+    .quiz-question{font-size:1.15rem;font-weight:1000;margin:.6rem 0}
+    .quiz-options{display:grid;gap:.55rem}
+    .quiz-option{
+      text-align:left;border:2px solid #b7c9de;background:white;border-radius:13px;
+      padding:.7rem;font-weight:900;color:var(--ink)
+    }
+    .quiz-option.correct{border-color:var(--green);background:var(--green-2)}
+    .quiz-option.wrong{border-color:var(--red);background:var(--red-2)}
+    .quiz-status{display:flex;justify-content:space-between;gap:1rem;align-items:center;flex-wrap:wrap}
+
+    .complete-badge{
+      display:none;margin-left:auto;background:var(--green-2);color:#0f6e44;
+      border:1px solid #a9dfbe;border-radius:999px;padding:.35rem .7rem;font-weight:900;
+    }
+    .module.done .complete-badge{display:inline-block}
+    .module.done{border-color:#addbbf}
+
+    footer{
+      text-align:center;color:var(--muted);padding:2rem 1rem 3rem
+    }
+
+    .sr-only{
+      position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+      clip:rect(0,0,0,0);white-space:nowrap;border:0
+    }
+
+    @media (max-width:850px){
+      .topbar-inner{grid-template-columns:1fr auto}
+      .progress-wrap{grid-column:1/-1;grid-row:2}
+      .learn-grid,.poster-demo{grid-template-columns:1fr}
+      .type-cards{grid-template-columns:repeat(2,1fr)}
+    }
+    @media (max-width:620px){
+      main{padding:.7rem}
+      .form-grid,.classify-block,.match-grid{grid-template-columns:1fr}
+      .word-bank{grid-column:1}
+      .type-cards{grid-template-columns:1fr}
+      .hero{border-radius:20px}
+      .module{border-radius:18px}
+    }
+    @media (prefers-reduced-motion: reduce){
+      *{scroll-behavior:auto!important;transition:none!important;animation:none!important}
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">📘 Lengua · Tema 1</div>
+      <div class="progress-wrap" aria-label="Progreso del tema">
+        <div class="progress-label" id="progressText">Progreso: 0 de 7 misiones</div>
+        <div class="progress-track" aria-hidden="true"><div class="progress-bar" id="progressBar"></div></div>
+      </div>
+      <div class="stars" id="stars">⭐ 0 / 7</div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <span class="eyebrow">5.º de Primaria · 10-11 años</span>
+      <h1>Elecciones a la vista</h1>
+      <p>Tu clase va a elegir representante. Para preparar buenas propuestas necesitarás nombres, tildes, vocabulario, tipos de textos y un cartel claro y respetuoso.</p>
+      <div class="hero-actions">
+        <a class="btn secondary" href="#mod1">Empezar la misión</a>
+        <button class="btn" id="resetBtn" type="button">Reiniciar progreso</button>
+      </div>
+    </section>
+
+    <section class="module" id="mod1" data-activity="a1">
+      <div class="module-head">
+        <div class="num">1</div>
+        <div>
+          <h2>El nombre y sus clases</h2>
+          <p class="sub">Aprende a reconocer qué nombramos y cómo podemos clasificarlo.</p>
+        </div>
+        <span class="complete-badge">✓ Misión superada</span>
+      </div>
+
+      <div class="learn-grid">
+        <div class="pill">
+          <h3>💡 Píldora teórica</h3>
+          <p>El <strong>nombre o sustantivo</strong> sirve para nombrar personas, animales, lugares, objetos, sentimientos o ideas.</p>
+          <ul>
+            <li><strong>Común / propio:</strong> ciudad / Málaga.</li>
+            <li><strong>Individual / colectivo:</strong> árbol / bosque.</li>
+            <li><strong>Concreto / abstracto:</strong> cartel / amistad.</li>
+          </ul>
+          <div class="example-row">
+            <span class="tag">👧 Lucía → propio</span>
+            <span class="tag">🌳 bosque → colectivo</span>
+            <span class="tag">💛 respeto → abstracto</span>
+          </div>
+        </div>
+        <div class="pill green">
+          <h3>🔎 Truco rápido</h3>
+          <p>Un mismo nombre puede pertenecer a varias clases según lo que estemos observando. Por eso aquí trabajaremos cada pareja por separado.</p>
+          <p><strong>Ejemplo:</strong> “colegio” es común y también concreto.</p>
+        </div>
+      </div>
+
+      <div class="activity">
+        <div class="activity-title"><span class="mission">⭐</span> Actividad: clasifica por contenedores</div>
+        <p>Toca una tarjeta y después una caja, o arrástrala. Completa los tres grupos.</p>
+
+        <h3>A. Común o propio</h3>
+        <div class="classify-block" data-group="g1">
+          <div class="word-bank">
+            <button class="chip" draggable="true" data-answer="propio">Marina</button>
+            <button class="chip" draggable="true" data-answer="comun">colegio</button>
+            <button class="chip" draggable="true" data-answer="propio">Guadalquivir</button>
+            <button class="chip" draggable="true" data-answer="comun">compañero</button>
+          </div>
+          <div class="dropzone" data-target="comun" tabindex="0"><h4>Común</h4></div>
+          <div class="dropzone" data-target="propio" tabindex="0"><h4>Propio</h4></div>
+        </div>
+
+        <h3>B. Individual o colectivo</h3>
+        <div class="classify-block" data-group="g2">
+          <div class="word-bank">
+            <button class="chip" draggable="true" data-answer="individual">abeja</button>
+            <button class="chip" draggable="true" data-answer="colectivo">enjambre</button>
+            <button class="chip" draggable="true" data-answer="individual">oveja</button>
+            <button class="chip" draggable="true" data-answer="colectivo">rebaño</button>
+          </div>
+          <div class="dropzone" data-target="individual" tabindex="0"><h4>Individual</h4></div>
+          <div class="dropzone" data-target="colectivo" tabindex="0"><h4>Colectivo</h4></div>
+        </div>
+
+        <h3>C. Concreto o abstracto</h3>
+        <div class="classify-block" data-group="g3">
+          <div class="word-bank">
+            <button class="chip" draggable="true" data-answer="concreto">cartel</button>
+            <button class="chip" draggable="true" data-answer="abstracto">amistad</button>
+            <button class="chip" draggable="true" data-answer="concreto">campana</button>
+            <button class="chip" draggable="true" data-answer="abstracto">paciencia</button>
+          </div>
+          <div class="dropzone" data-target="concreto" tabindex="0"><h4>Concreto</h4></div>
+          <div class="dropzone" data-target="abstracto" tabindex="0"><h4>Abstracto</h4></div>
+        </div>
+
+        <button class="btn good" type="button" data-check="classifyNames">Comprobar</button>
+        <div class="feedback" id="fb-a1" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="module" id="mod2" data-activity="a2">
+      <div class="module-head">
+        <div class="num">2</div>
+        <div>
+          <h2>Género y número del nombre</h2>
+          <p class="sub">Observa qué palabras acompañan al nombre y cómo cambia al hablar de uno o de varios.</p>
+        </div>
+        <span class="complete-badge">✓ Misión superada</span>
+      </div>
+
+      <div class="learn-grid">
+        <div class="pill green">
+          <h3>💡 Píldora teórica</h3>
+          <p>Los nombres pueden ser <strong>masculinos</strong> o <strong>femeninos</strong>: <strong>el alumno</strong>, <strong>la alumna</strong>.</p>
+          <p>También pueden estar en <strong>singular</strong> o <strong>plural</strong>: <strong>cartel / carteles</strong>, <strong>lápiz / lápices</strong>.</p>
+        </div>
+        <div class="pill orange">
+          <h3>⚠️ Ojo</h3>
+          <p>No siempre basta con mirar la última letra: decimos <strong>la mano</strong> y <strong>el mapa</strong>.</p>
+          <p>Si una palabra termina en <strong>-z</strong>, el plural suele cambiar <strong>z → c</strong>: lápiz → lápices.</p>
+        </div>
+      </div>
+
+      <div class="activity">
+        <div class="activity-title"><span class="mission">⭐</span> Actividad: completa las transformaciones</div>
+        <p>Elige la opción correcta en cada caso.</p>
+        <div class="form-grid">
+          <label class="qrow">1. Femenino de “el alumno”:
+            <select data-answer="la alumna">
+              <option value="">Elige…</option>
+              <option>la alumna</option>
+              <option>el alumna</option>
+              <option>la alumno</option>
+            </select>
+          </label>
+          <label class="qrow">2. Plural de “lápiz”:
+            <select data-answer="lápices">
+              <option value="">Elige…</option>
+              <option>lápizs</option>
+              <option>lápizes</option>
+              <option>lápices</option>
+            </select>
+          </label>
+          <label class="qrow">3. Singular de “los carteles”:
+            <select data-answer="el cartel">
+              <option value="">Elige…</option>
+              <option>el cartel</option>
+              <option>la cartel</option>
+              <option>los cartel</option>
+            </select>
+          </label>
+          <label class="qrow">4. Femenino plural de “el profesor”:
+            <select data-answer="las profesoras">
+              <option value="">Elige…</option>
+              <option>los profesoras</option>
+              <option>las profesoras</option>
+              <option>la profesoras</option>
+            </select>
+          </label>
+        </div>
+        <button class="btn good" type="button" data-check="selects" data-module="mod2">Comprobar</button>
+        <div class="feedback" id="fb-a2" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="module" id="mod3" data-activity="a3">
+      <div class="module-head">
+        <div class="num">3</div>
+        <div>
+          <h2>Reglas generales de acentuación</h2>
+          <p class="sub">Localiza la sílaba tónica y decide si la palabra es aguda, llana o esdrújula.</p>
+        </div>
+        <span class="complete-badge">✓ Misión superada</span>
+      </div>
+
+      <div class="learn-grid">
+        <div class="pill orange">
+          <h3>💡 Píldora teórica</h3>
+          <ul>
+            <li><strong>Agudas:</strong> sílaba tónica al final. Llevan tilde si terminan en vocal, <strong>n</strong> o <strong>s</strong>.</li>
+            <li><strong>Llanas:</strong> sílaba tónica en la penúltima. Llevan tilde si NO terminan en vocal, <strong>n</strong> o <strong>s</strong>.</li>
+            <li><strong>Esdrújulas:</strong> sílaba tónica en la antepenúltima. Llevan tilde <strong>siempre</strong>.</li>
+          </ul>
+        </div>
+        <div class="pill">
+          <h3>🧠 Ejemplos</h3>
+          <div class="example-row">
+            <span class="tag">canción → aguda</span>
+            <span class="tag">lápiz → llana</span>
+            <span class="tag">música → esdrújula</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="activity">
+        <div class="activity-title"><span class="mission">⭐</span> Actividad: clasifica por la sílaba tónica</div>
+        <p>Toca o arrastra cada palabra a su grupo.</p>
+        <div class="classify-block" data-group="accent">
+          <div class="word-bank">
+            <button class="chip" draggable="true" data-answer="aguda">canción</button>
+            <button class="chip" draggable="true" data-answer="llana">lápiz</button>
+            <button class="chip" draggable="true" data-answer="esdrujula">música</button>
+            <button class="chip" draggable="true" data-answer="aguda">papel</button>
+            <button class="chip" draggable="true" data-answer="llana">árbol</button>
+            <button class="chip" draggable="true" data-answer="esdrujula">brújula</button>
+            <button class="chip" draggable="true" data-answer="aguda">compás</button>
+            <button class="chip" draggable="true" data-answer="llana">mesa</button>
+            <button class="chip" draggable="true" data-answer="esdrujula">pájaro</button>
+          </div>
+          <div class="dropzone" data-target="aguda" tabindex="0"><h4>Agudas</h4></div>
+          <div class="dropzone" data-target="llana" tabindex="0"><h4>Llanas</h4></div>
+          <div class="dropzone" data-target="esdrujula" tabindex="0"><h4>Esdrújulas</h4></div>
+        </div>
+        <button class="btn good" type="button" data-check="classifyAccent">Comprobar</button>
+        <div class="feedback" id="fb-a3" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="module" id="mod4" data-activity="a4">
+      <div class="module-head">
+        <div class="num">4</div>
+        <div>
+          <h2>Tipos de textos</h2>
+          <p class="sub">Cada texto tiene una intención: contar, describir, explicar, indicar pasos o convencer.</p>
+        </div>
+        <span class="complete-badge">✓ Misión superada</span>
+      </div>
+
+      <div class="pill purple">
+        <h3>💡 Píldora teórica · toca las tarjetas</h3>
+        <div class="type-cards">
+          <div class="flip"><button type="button"><span class="flip-inner"><span class="flip-face">Narrativo</span><span class="flip-face flip-back">Cuenta hechos que les ocurren a unos personajes.</span></span></button></div>
+          <div class="flip"><button type="button"><span class="flip-inner"><span class="flip-face">Descriptivo</span><span class="flip-face flip-back">Explica cómo es una persona, objeto, animal o lugar.</span></span></button></div>
+          <div class="flip"><button type="button"><span class="flip-inner"><span class="flip-face">Expositivo</span><span class="flip-face flip-back">Explica información de forma clara y ordenada.</span></span></button></div>
+          <div class="flip"><button type="button"><span class="flip-inner"><span class="flip-face">Instructivo</span><span class="flip-face flip-back">Indica pasos o instrucciones para hacer algo.</span></span></button></div>
+          <div class="flip"><button type="button"><span class="flip-inner"><span class="flip-face">Persuasivo</span><span class="flip-face flip-back">Busca convencer mediante razones o propuestas.</span></span></button></div>
+        </div>
+      </div>
+
+      <div class="activity">
+        <div class="activity-title"><span class="mission">⭐</span> Actividad: identifica la intención</div>
+        <div class="form-grid">
+          <label class="qrow">“Primero escribe el título. Después añade tres propuestas.”
+            <select data-answer="instructivo">
+              <option value="">Tipo de texto…</option><option>narrativo</option><option>descriptivo</option><option>expositivo</option><option>instructivo</option><option>persuasivo</option>
+            </select>
+          </label>
+          <label class="qrow">“El cartel era grande, amarillo y brillante.”
+            <select data-answer="descriptivo">
+              <option value="">Tipo de texto…</option><option>narrativo</option><option>descriptivo</option><option>expositivo</option><option>instructivo</option><option>persuasivo</option>
+            </select>
+          </label>
+          <label class="qrow">“El martes, Julia encontró cinco carteles nuevos en el tablón.”
+            <select data-answer="narrativo">
+              <option value="">Tipo de texto…</option><option>narrativo</option><option>descriptivo</option><option>expositivo</option><option>instructivo</option><option>persuasivo</option>
+            </select>
+          </label>
+          <label class="qrow">“El representante recoge propuestas y las comunica al grupo.”
+            <select data-answer="expositivo">
+              <option value="">Tipo de texto…</option><option>narrativo</option><option>descriptivo</option><option>expositivo</option><option>instructivo</option><option>persuasivo</option>
+            </select>
+          </label>
+          <label class="qrow">“Participa y comparte tus ideas para mejorar la clase.”
+            <select data-answer="persuasivo">
+              <option value="">Tipo de texto…</option><option>narrativo</option><option>descriptivo</option><option>expositivo</option><option>instructivo</option><option>persuasivo</option>
+            </select>
+          </label>
+        </div>
+        <button class="btn good" type="button" data-check="selects" data-module="mod4">Comprobar</button>
+        <div class="feedback" id="fb-a4" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="module" id="mod5" data-activity="a5">
+      <div class="module-head">
+        <div class="num">5</div>
+        <div>
+          <h2>Sinónimos y antónimos</h2>
+          <p class="sub">Enriquece tu vocabulario y evita repeticiones.</p>
+        </div>
+        <span class="complete-badge">✓ Misión superada</span>
+      </div>
+
+      <div class="learn-grid">
+        <div class="pill green">
+          <h3>💡 Píldora teórica</h3>
+          <p>Los <strong>sinónimos</strong> tienen significados iguales o parecidos: <strong>alegre / contento</strong>.</p>
+          <p>Los <strong>antónimos</strong> expresan significados contrarios: <strong>fácil / difícil</strong>.</p>
+        </div>
+        <div class="pill">
+          <h3>✍️ Para escribir mejor</h3>
+          <p>Usar sinónimos evita repetir una misma palabra demasiadas veces y hace el texto más rico.</p>
+        </div>
+      </div>
+
+      <div class="activity" id="matchActivity">
+        <div class="activity-title"><span class="mission">⭐</span> Actividad: une las parejas</div>
+        <p>Elige una palabra de la izquierda y después su pareja de la derecha.</p>
+        <div class="match-grid">
+          <div class="match-col" id="leftPairs">
+            <button class="match-btn" data-key="1">alegre</button>
+            <button class="match-btn" data-key="2">bonito</button>
+            <button class="match-btn" data-key="3">rápido</button>
+            <button class="match-btn" data-key="4">fácil</button>
+            <button class="match-btn" data-key="5">entrar</button>
+            <button class="match-btn" data-key="6">cerca</button>
+          </div>
+          <div class="match-col" id="rightPairs">
+            <button class="match-btn" data-key="4">difícil</button>
+            <button class="match-btn" data-key="1">contento</button>
+            <button class="match-btn" data-key="6">lejos</button>
+            <button class="match-btn" data-key="2">hermoso</button>
+            <button class="match-btn" data-key="5">salir</button>
+            <button class="match-btn" data-key="3">veloz</button>
+          </div>
+        </div>
+        <div class="feedback" id="fb-a5" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="module" id="mod6" data-activity="a6">
+      <div class="module-head">
+        <div class="num">6</div>
+        <div>
+          <h2>El cartel electoral</h2>
+          <p class="sub">Organiza un mensaje breve, visual y respetuoso para presentar propuestas de clase.</p>
+        </div>
+        <span class="complete-badge">✓ Misión superada</span>
+      </div>
+
+      <div class="poster-demo">
+        <div class="pill orange">
+          <h3>💡 Píldora teórica</h3>
+          <p>Un cartel electoral de clase presenta una candidatura y sus propuestas de forma <strong>clara, breve y respetuosa</strong>.</p>
+          <ul>
+            <li>Lema o título.</li>
+            <li>Nombre de la candidatura.</li>
+            <li>Propuestas concretas.</li>
+            <li>Frase final.</li>
+          </ul>
+        </div>
+        <div class="poster" aria-label="Ejemplo de cartel">
+          <div class="poster-title">¡Ideas que suman!</div>
+          <p><strong>Candidatura de Marina</strong></p>
+          <ul>
+            <li>📚 Rincón para recomendar libros.</li>
+            <li>🎲 Nuevos juegos para algunos recreos.</li>
+            <li>🌱 Cuidar mejor las plantas.</li>
+          </ul>
+          <p><strong>Lee las propuestas y participa.</strong></p>
+        </div>
+      </div>
+
+      <div class="activity">
+        <div class="activity-title"><span class="mission">⭐</span> Actividad: ordena las partes del cartel</div>
+        <p>Arrastra los bloques o usa las flechas. Colócalos en un orden lógico de lectura.</p>
+        <ol class="reorder" id="posterOrder">
+          <li draggable="true" data-order="3"><span class="handle">↕</span><strong>3 propuestas breves</strong><span class="move-buttons"><button type="button" data-dir="-1">↑</button><button type="button" data-dir="1">↓</button></span></li>
+          <li draggable="true" data-order="1"><span class="handle">↕</span><strong>Lema o título</strong><span class="move-buttons"><button type="button" data-dir="-1">↑</button><button type="button" data-dir="1">↓</button></span></li>
+          <li draggable="true" data-order="4"><span class="handle">↕</span><strong>Frase final</strong><span class="move-buttons"><button type="button" data-dir="-1">↑</button><button type="button" data-dir="1">↓</button></span></li>
+          <li draggable="true" data-order="2"><span class="handle">↕</span><strong>Nombre de la candidatura</strong><span class="move-buttons"><button type="button" data-dir="-1">↑</button><button type="button" data-dir="1">↓</button></span></li>
+        </ol>
+        <button class="btn good" type="button" id="checkOrder">Comprobar orden</button>
+        <div class="feedback" id="fb-a6" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="module" id="mod7" data-activity="a7">
+      <div class="module-head">
+        <div class="num">7</div>
+        <div>
+          <h2>Reto final · Misión representante</h2>
+          <p class="sub">Demuestra que puedes usar todo lo aprendido en una situación real de aula.</p>
+        </div>
+        <span class="complete-badge">✓ Reto completado</span>
+      </div>
+
+      <div class="quiz-shell">
+        <div class="quiz-status">
+          <strong id="quizStep">Pregunta 1 de 6</strong>
+          <span id="quizScore">Aciertos: 0</span>
+        </div>
+        <div class="quiz-question" id="quizQuestion"></div>
+        <div class="quiz-options" id="quizOptions"></div>
+        <div class="feedback" id="quizFeedback" aria-live="polite"></div>
+        <button class="btn" id="nextQuiz" type="button" disabled>Siguiente</button>
+      </div>
+    </section>
+
+    <section class="module">
+      <div class="module-head">
+        <div class="num">✓</div>
+        <div>
+          <h2>Tu cierre del tema</h2>
+          <p class="sub">Comprueba tu aprendizaje con este semáforo.</p>
+        </div>
+      </div>
+      <div class="checklist">
+        <label><input type="checkbox"> Reconozco nombres y sus clases.</label><br>
+        <label><input type="checkbox"> Distingo género y número.</label><br>
+        <label><input type="checkbox"> Clasifico palabras agudas, llanas y esdrújulas.</label><br>
+        <label><input type="checkbox"> Distingo tipos de textos.</label><br>
+        <label><input type="checkbox"> Uso sinónimos y antónimos.</label><br>
+        <label><input type="checkbox"> Sé organizar un cartel electoral de clase.</label>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <strong>Tema 1 · Elecciones a la vista</strong><br>
+    Aprende, prueba, corrige y vuelve a intentarlo. Cada error también enseña.
+  </footer>
+
+<script>
+(() => {
+  const completed = new Set(JSON.parse(localStorage.getItem("tema1_completed") || "[]"));
+  const totalActivities = 7;
+  let selectedChip = null;
+
+  const updateProgress = () => {
+    const count = completed.size;
+    document.getElementById("progressText").textContent = `Progreso: ${count} de ${totalActivities} misiones`;
+    document.getElementById("progressBar").style.width = `${(count/totalActivities)*100}%`;
+    document.getElementById("stars").textContent = `⭐ ${count} / ${totalActivities}`;
+    document.querySelectorAll(".module[data-activity]").forEach(mod => {
+      mod.classList.toggle("done", completed.has(mod.dataset.activity));
+    });
+    localStorage.setItem("tema1_completed", JSON.stringify([...completed]));
+  };
+
+  const complete = (activity) => {
+    completed.add(activity);
+    updateProgress();
+  };
+
+  const setFeedback = (id, text, type="hint") => {
+    const el = document.getElementById(id);
+    el.className = `feedback ${type}`;
+    el.textContent = text;
+  };
+
+  // Flip cards
+  document.querySelectorAll(".flip button").forEach(btn => {
+    btn.addEventListener("click", () => btn.closest(".flip").classList.toggle("flipped"));
+  });
+
+  // Drag / tap classification
+  document.querySelectorAll(".chip").forEach(chip => {
+    chip.addEventListener("click", () => {
+      document.querySelectorAll(".chip.selected").forEach(c => c.classList.remove("selected"));
+      selectedChip = chip;
+      chip.classList.add("selected");
+    });
+    chip.addEventListener("dragstart", e => {
+      selectedChip = chip;
+      e.dataTransfer.setData("text/plain", "chip");
+      chip.classList.add("selected");
+    });
+  });
+
+  document.querySelectorAll(".dropzone").forEach(zone => {
+    zone.addEventListener("click", e => {
+      if (selectedChip && !e.target.closest(".chip")) {
+        zone.appendChild(selectedChip);
+        selectedChip.classList.remove("selected");
+        selectedChip = null;
+      }
+    });
+    zone.addEventListener("dragover", e => { e.preventDefault(); zone.classList.add("dragover"); });
+    zone.addEventListener("dragleave", () => zone.classList.remove("dragover"));
+    zone.addEventListener("drop", e => {
+      e.preventDefault();
+      zone.classList.remove("dragover");
+      if (selectedChip) {
+        zone.appendChild(selectedChip);
+        selectedChip.classList.remove("selected");
+        selectedChip = null;
+      }
+    });
+  });
+
+  function checkZones(container) {
+    const chips = [...container.querySelectorAll(".chip")];
+    const allPlaced = chips.every(chip => chip.closest(".dropzone"));
+    const correct = chips.every(chip => {
+      const zone = chip.closest(".dropzone");
+      return zone && zone.dataset.target === chip.dataset.answer;
+    });
+    return {allPlaced, correct};
+  }
+
+  document.querySelector('[data-check="classifyNames"]').addEventListener("click", () => {
+    const groups = ["g1","g2","g3"].map(g => document.querySelector(`[data-group="${g}"]`));
+    const results = groups.map(checkZones);
+    if (!results.every(r => r.allPlaced)) {
+      setFeedback("fb-a1","Aún quedan tarjetas por colocar. Completa las tres clasificaciones.","hint");
+      return;
+    }
+    if (results.every(r => r.correct)) {
+      setFeedback("fb-a1","¡Perfecto! Has distinguido las clases de nombres según el criterio indicado.","ok");
+      complete("a1");
+    } else {
+      setFeedback("fb-a1","Hay alguna tarjeta en una caja incorrecta. Revisa cada pareja y vuelve a intentarlo.","no");
+    }
+  });
+
+  document.querySelector('[data-check="classifyAccent"]').addEventListener("click", () => {
+    const result = checkZones(document.querySelector('[data-group="accent"]'));
+    if (!result.allPlaced) {
+      setFeedback("fb-a3","Coloca primero todas las palabras.","hint");
+      return;
+    }
+    if (result.correct) {
+      setFeedback("fb-a3","¡Muy bien! Has localizado correctamente la sílaba tónica.","ok");
+      complete("a3");
+    } else {
+      setFeedback("fb-a3","Revisa dónde suena con más fuerza cada palabra: última, penúltima o antepenúltima sílaba.","no");
+    }
+  });
+
+  // Select activities
+  document.querySelectorAll('[data-check="selects"]').forEach(btn => {
+    btn.addEventListener("click", () => {
+      const mod = document.getElementById(btn.dataset.module);
+      const selects = [...mod.querySelectorAll("select[data-answer]")];
+      let filled = true, all = true;
+      selects.forEach(s => {
+        s.classList.remove("correct","wrong");
+        if (!s.value) { filled = false; all = false; return; }
+        const ok = s.value === s.dataset.answer;
+        s.classList.add(ok ? "correct" : "wrong");
+        if (!ok) all = false;
+      });
+      const aid = mod.dataset.activity;
+      if (!filled) {
+        setFeedback(`fb-${aid}`,"Completa todas las respuestas antes de comprobar.","hint");
+      } else if (all) {
+        setFeedback(`fb-${aid}`,"¡Todo correcto! Misión superada.","ok");
+        complete(aid);
+      } else {
+        const hint = aid === "a2"
+          ? "Revisa el artículo y cómo cambia el nombre al pasar de singular a plural."
+          : "Piensa en la intención: contar, describir, explicar, dar pasos o convencer.";
+        setFeedback(`fb-${aid}`,hint,"no");
+      }
+    });
+  });
+
+  // Matching
+  let leftChoice = null;
+  let matchedCount = 0;
+  const leftButtons = [...document.querySelectorAll("#leftPairs .match-btn")];
+  const rightButtons = [...document.querySelectorAll("#rightPairs .match-btn")];
+
+  leftButtons.forEach(btn => btn.addEventListener("click", () => {
+    if (btn.classList.contains("matched")) return;
+    leftButtons.forEach(b => b.classList.remove("active"));
+    leftChoice = btn;
+    btn.classList.add("active");
+    setFeedback("fb-a5","Ahora busca su pareja en la columna de la derecha.","hint");
+  }));
+
+  rightButtons.forEach(btn => btn.addEventListener("click", () => {
+    if (btn.classList.contains("matched")) return;
+    if (!leftChoice) {
+      setFeedback("fb-a5","Primero elige una palabra de la columna izquierda.","hint");
+      return;
+    }
+    if (btn.dataset.key === leftChoice.dataset.key) {
+      leftChoice.classList.remove("active");
+      leftChoice.classList.add("matched");
+      btn.classList.add("matched");
+      leftChoice.disabled = true;
+      btn.disabled = true;
+      leftChoice = null;
+      matchedCount++;
+      if (matchedCount === 6) {
+        setFeedback("fb-a5","¡Seis parejas correctas! Has combinado sinónimos y antónimos.","ok");
+        complete("a5");
+      } else {
+        setFeedback("fb-a5","¡Pareja correcta! Sigue.","ok");
+      }
+    } else {
+      btn.classList.add("shake");
+      leftChoice.classList.add("shake");
+      setTimeout(() => {btn.classList.remove("shake"); leftChoice && leftChoice.classList.remove("shake");}, 320);
+      setFeedback("fb-a5","Esa pareja no encaja. Piensa si las palabras significan algo parecido o lo contrario.","no");
+    }
+  }));
+
+  // Reorder
+  const list = document.getElementById("posterOrder");
+  let dragged = null;
+  [...list.children].forEach(item => {
+    item.addEventListener("dragstart", () => dragged = item);
+    item.addEventListener("dragover", e => {
+      e.preventDefault();
+      const box = item.getBoundingClientRect();
+      const after = (e.clientY - box.top) > box.height / 2;
+      if (dragged && dragged !== item) {
+        list.insertBefore(dragged, after ? item.nextSibling : item);
+      }
+    });
+  });
+  list.addEventListener("dragend", () => dragged = null);
+
+  list.querySelectorAll("[data-dir]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const li = btn.closest("li");
+      const dir = Number(btn.dataset.dir);
+      if (dir < 0 && li.previousElementSibling) {
+        list.insertBefore(li, li.previousElementSibling);
+      }
+      if (dir > 0 && li.nextElementSibling) {
+        list.insertBefore(li.nextElementSibling, li);
+      }
+    });
+  });
+
+  document.getElementById("checkOrder").addEventListener("click", () => {
+    const order = [...list.children].map(li => li.dataset.order).join("");
+    if (order === "1234") {
+      setFeedback("fb-a6","¡Orden correcto! El lector encuentra primero el lema, luego quién se presenta, después las propuestas y al final el cierre.","ok");
+      complete("a6");
+    } else {
+      setFeedback("fb-a6","Casi. Piensa en cómo lee una persona el cartel de arriba abajo: primero debe entender el mensaje principal.","no");
+    }
+  });
+
+  // Final quiz
+  const quiz = [
+    {
+      q:"En un cartel aparece “Málaga”. ¿Qué clase de nombre es por ser el nombre concreto de una ciudad?",
+      opts:["Común","Propio","Colectivo"], a:1,
+      hint:"Los nombres de lugares concretos se escriben con mayúscula inicial."
+    },
+    {
+      q:"¿Cuál es el plural correcto de “lápiz”?",
+      opts:["lápizes","lápices","lápizs"], a:1,
+      hint:"Cuando termina en -z, suele cambiar z por c y añadirse -es."
+    },
+    {
+      q:"¿Qué palabra es esdrújula?",
+      opts:["cartel","música","papel"], a:1,
+      hint:"En las esdrújulas, la fuerza está en la antepenúltima sílaba."
+    },
+    {
+      q:"“Primero recorta la cartulina y después escribe el lema.” ¿Qué tipo de texto es?",
+      opts:["Instructivo","Narrativo","Descriptivo"], a:0,
+      hint:"Está explicando pasos."
+    },
+    {
+      q:"¿Cuál es un sinónimo de “contento”?",
+      opts:["triste","alegre","difícil"], a:1,
+      hint:"Busca una palabra de significado parecido."
+    },
+    {
+      q:"¿Qué opción mejora un cartel electoral de clase?",
+      opts:["Un texto muy largo","Propuestas claras y respetuosas","Criticar a otros compañeros"], a:1,
+      hint:"Un buen cartel debe entenderse rápido y cuidar el respeto."
+    }
+  ];
+
+  let qi = 0;
+  let qScore = 0;
+  let answered = false;
+
+  const renderQuiz = () => {
+    const item = quiz[qi];
+    answered = false;
+    document.getElementById("quizStep").textContent = `Pregunta ${qi+1} de ${quiz.length}`;
+    document.getElementById("quizScore").textContent = `Aciertos: ${qScore}`;
+    document.getElementById("quizQuestion").textContent = item.q;
+    const opts = document.getElementById("quizOptions");
+    opts.innerHTML = "";
+    document.getElementById("quizFeedback").className = "feedback";
+    document.getElementById("quizFeedback").textContent = "";
+    document.getElementById("nextQuiz").disabled = true;
+
+    item.opts.forEach((txt, index) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "quiz-option";
+      b.textContent = txt;
+      b.addEventListener("click", () => answerQuiz(index,b));
+      opts.appendChild(b);
+    });
+  };
+
+  const answerQuiz = (index, btn) => {
+    if (answered) return;
+    answered = true;
+    const item = quiz[qi];
+    const buttons = [...document.querySelectorAll(".quiz-option")];
+    if (index === item.a) {
+      qScore++;
+      btn.classList.add("correct");
+      setFeedback("quizFeedback","¡Correcto! Sumas un acierto.","ok");
+    } else {
+      btn.classList.add("wrong");
+      buttons[item.a].classList.add("correct");
+      setFeedback("quizFeedback",item.hint,"no");
+    }
+    document.getElementById("quizScore").textContent = `Aciertos: ${qScore}`;
+    document.getElementById("nextQuiz").disabled = false;
+  };
+
+  document.getElementById("nextQuiz").addEventListener("click", () => {
+    qi++;
+    if (qi < quiz.length) {
+      renderQuiz();
+    } else {
+      document.getElementById("quizQuestion").textContent = `Reto completado: ${qScore} de ${quiz.length} aciertos.`;
+      document.getElementById("quizOptions").innerHTML = "";
+      document.getElementById("quizStep").textContent = "Fin del reto";
+      document.getElementById("nextQuiz").style.display = "none";
+      const msg = qScore === quiz.length
+        ? "¡Excelente! Has resuelto toda la misión sin fallos."
+        : qScore >= 4
+          ? "¡Buen trabajo! Revisa las pistas de las preguntas que te costaron."
+          : "Buen comienzo. Repasa las píldoras y vuelve a intentarlo cuando quieras.";
+      setFeedback("quizFeedback",msg,qScore>=4 ? "ok" : "hint");
+      complete("a7");
+    }
+  });
+
+  // Reset
+  document.getElementById("resetBtn").addEventListener("click", () => {
+    localStorage.removeItem("tema1_completed");
+    location.reload();
+  });
+
+  renderQuiz();
+  updateProgress();
+})();
+</script>
+</body>
+</html>
