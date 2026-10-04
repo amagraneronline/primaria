@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#1e3a8a">
-  <title>Aula de 5.º de Primaria</title>
+  <meta name="theme-color" content="#2563eb">
+  <title>Matemáticas · 5.º de Primaria</title>
+
   <style>
     * { box-sizing: border-box; }
 
@@ -36,7 +37,33 @@
 
     header {
       text-align: center;
-      padding: 58px 20px 24px;
+      padding: 48px 20px 20px;
+    }
+
+    .top-nav {
+      width: min(1120px, 92%);
+      margin: 18px auto 0;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.9);
+      border: 1px solid #dbe5f3;
+      color: var(--azul-oscuro);
+      text-decoration: none;
+      font-weight: 800;
+      box-shadow: 0 6px 18px rgba(30,58,138,.06);
+    }
+
+    .back-link:hover,
+    .back-link:focus-visible {
+      outline: none;
+      border-color: var(--azul);
+      transform: translateY(-1px);
     }
 
     .course-badge {
@@ -53,7 +80,7 @@
 
     header h1 {
       margin: 0 0 12px;
-      font-size: clamp(2.2rem, 6vw, 4rem);
+      font-size: clamp(2.2rem, 6vw, 3.8rem);
       line-height: 1.05;
       color: var(--azul-oscuro);
     }
@@ -61,7 +88,7 @@
     header p {
       max-width: 720px;
       margin: 0 auto;
-      font-size: clamp(1.05rem, 2vw, 1.2rem);
+      font-size: clamp(1.05rem, 2vw, 1.18rem);
       line-height: 1.6;
       color: #4b5563;
     }
@@ -70,7 +97,7 @@
       width: min(1120px, 92%);
       margin: 28px auto 54px;
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 26px;
     }
 
@@ -85,7 +112,7 @@
       box-shadow: 0 12px 34px rgba(15,23,42,.09);
       border: 3px solid transparent;
       transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
-      min-height: 350px;
+      min-height: 300px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -111,18 +138,14 @@
       outline: none;
     }
 
-    .card.lengua::before { background: var(--verde); }
-    .card.matematicas::before { background: var(--azul); }
     .card.conocimiento::before { background: var(--naranja); }
-
-    .card.lengua:hover,
-    .card.lengua:focus-visible { border-color: var(--verde); }
-
-    .card.matematicas:hover,
-    .card.matematicas:focus-visible { border-color: var(--azul); }
+    .card.matematicas::before { background: var(--azul); }
 
     .card.conocimiento:hover,
     .card.conocimiento:focus-visible { border-color: var(--naranja); }
+
+    .card.matematicas:hover,
+    .card.matematicas:focus-visible { border-color: var(--azul); }
 
     .icon-box {
       width: 88px;
@@ -134,9 +157,8 @@
       margin-bottom: 22px;
     }
 
-    .lengua .icon-box { background: #d1fae5; }
-    .matematicas .icon-box { background: #dbeafe; }
     .conocimiento .icon-box { background: #fef3c7; }
+    .matematicas .icon-box { background: #dbeafe; }
 
     .subject-label {
       display: inline-block;
@@ -147,9 +169,8 @@
       text-transform: uppercase;
     }
 
-    .lengua .subject-label { color: var(--verde-oscuro); }
-    .matematicas .subject-label { color: var(--azul-oscuro); }
     .conocimiento .subject-label { color: var(--naranja-oscuro); }
+    .matematicas .subject-label { color: var(--azul-oscuro); }
 
     .card h2 {
       margin: 0 0 12px;
@@ -187,9 +208,43 @@
       transform: translateX(4px);
     }
 
-    .lengua .button { background: var(--verde); }
-    .matematicas .button { background: var(--azul); }
     .conocimiento .button { background: var(--naranja); }
+    .matematicas .button { background: var(--azul); }
+
+    .empty-state {
+      grid-column: 1 / -1;
+      background: rgba(255,255,255,.96);
+      border: 2px dashed #bfcee3;
+      border-radius: 26px;
+      padding: 48px 28px;
+      text-align: center;
+      box-shadow: 0 12px 34px rgba(15,23,42,.07);
+    }
+
+    .empty-icon {
+      width: 96px;
+      height: 96px;
+      margin: 0 auto 18px;
+      display: grid;
+      place-items: center;
+      border-radius: 28px;
+      background: #dbeafe;
+      font-size: 3.8rem;
+    }
+
+    .empty-state h2 {
+      margin: 0 0 10px;
+      color: var(--azul-oscuro);
+      font-size: 1.7rem;
+    }
+
+    .empty-state p {
+      margin: 0 auto;
+      max-width: 560px;
+      color: var(--texto-suave);
+      line-height: 1.6;
+      font-size: 1.03rem;
+    }
 
     footer {
       margin-top: auto;
@@ -201,101 +256,66 @@
 
     footer strong { color: #475569; }
 
-    @media (max-width: 900px) {
+    @media (max-width: 800px) {
       main {
         grid-template-columns: 1fr;
         max-width: 680px;
       }
-      .card { min-height: 280px; }
+      .card { min-height: 270px; }
     }
 
     @media (max-width: 540px) {
-      header { padding-top: 38px; }
+      header { padding-top: 34px; }
       main {
         width: min(94%, 680px);
         gap: 20px;
       }
       .card {
         padding: 26px;
-        min-height: 260px;
+        min-height: 250px;
       }
       .icon-box {
         width: 76px;
         height: 76px;
         font-size: 3rem;
       }
+      .empty-state { padding: 38px 22px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
       * { transition: none !important; }
     }
   </style>
+
 </head>
 <body>
 
+  <nav class="top-nav" aria-label="Navegación principal">
+    <a class="back-link" href="index.html">← Volver a las materias</a>
+  </nav>
+
   <header>
-    <div class="course-badge">🎓 Aula digital · 5.º de Primaria</div>
-    <h1>¿Qué vamos a aprender hoy?</h1>
+    <div class="course-badge">➗ Matemáticas · 5.º de Primaria</div>
+    <h1>Matemáticas</h1>
     <p>
-      Elige una materia para acceder a sus temas, explicaciones,
-      actividades interactivas y retos.
+      Aquí aparecerán los temas, repasos, problemas y retos interactivos
+      de Matemáticas.
     </p>
   </header>
 
   <main>
-
-    <a class="card lengua" href="lengua.html" aria-label="Entrar en Lengua Castellana y Literatura">
-      <div>
-        <div class="icon-box" aria-hidden="true">📚</div>
-        <span class="subject-label">Materia</span>
-        <h2>Lengua Castellana y Literatura</h2>
-        <p>
-          Trabaja gramática, ortografía, vocabulario, comprensión lectora,
-          expresión escrita y comunicación.
-        </p>
-      </div>
-      <span class="button">
-        <span>Entrar en Lengua</span>
-        <span aria-hidden="true">→</span>
-      </span>
-    </a>
-
-    <a class="card matematicas" href="matematicas.html" aria-label="Entrar en Matemáticas">
-      <div>
-        <div class="icon-box" aria-hidden="true">➗</div>
-        <span class="subject-label">Materia</span>
-        <h2>Matemáticas</h2>
-        <p>
-          Practica cálculo, números, resolución de problemas, geometría,
-          medida y razonamiento matemático.
-        </p>
-      </div>
-      <span class="button">
-        <span>Entrar en Matemáticas</span>
-        <span aria-hidden="true">→</span>
-      </span>
-    </a>
-
-    <a class="card conocimiento" href="conocimiento.html" aria-label="Entrar en Conocimiento del Medio">
-      <div>
-        <div class="icon-box" aria-hidden="true">🌍</div>
-        <span class="subject-label">Materia</span>
-        <h2>Conocimiento del Medio</h2>
-        <p>
-          Descubre el cuerpo humano, los seres vivos, el entorno,
-          la sociedad, la historia, la geografía y la ciencia.
-        </p>
-      </div>
-      <span class="button">
-        <span>Entrar en Conocimiento</span>
-        <span aria-hidden="true">→</span>
-      </span>
-    </a>
-
+    <section class="empty-state">
+      <div class="empty-icon" aria-hidden="true">🧮</div>
+      <h2>Próximamente habrá nuevas actividades</h2>
+      <p>
+        Esta sección ya está preparada. Cuando añadas un nuevo tema,
+        podrás incorporar aquí su tarjeta de acceso manteniendo el mismo estilo.
+      </p>
+    </section>
   </main>
 
   <footer>
-    <strong>Aula de 5.º de Primaria</strong> · Aprende a tu ritmo
+    <strong>Aula de 5.º de Primaria</strong> · Matemáticas
   </footer>
 
 </body>

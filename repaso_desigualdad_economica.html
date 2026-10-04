@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Repaso interactivo - La desigualdad económica</title>
+  <style>
+    :root{
+      --bg:#f4f7fb;
+      --card:#ffffff;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --primary:#2563eb;
+      --primary-soft:#dbeafe;
+      --border:#dbe3ee;
+      --ok:#15803d;
+      --ok-soft:#dcfce7;
+      --bad:#b91c1c;
+      --bad-soft:#fee2e2;
+      --warn:#a16207;
+      --warn-soft:#fef3c7;
+      --shadow:0 10px 30px rgba(15,23,42,.08);
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:linear-gradient(180deg,#eff6ff 0%, var(--bg) 25%, #ffffff 100%);
+      color:var(--text);
+    }
+
+    .wrapper{
+      max-width:900px;
+      margin:0 auto;
+      padding:24px 16px 48px;
+    }
+
+    .hero{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:22px;
+      padding:24px;
+      box-shadow:var(--shadow);
+      margin-bottom:20px;
+    }
+
+    h1{
+      margin:0 0 8px;
+      font-size:clamp(1.8rem,4vw,2.6rem);
+    }
+
+    .subtitle{
+      margin:0;
+      color:var(--muted);
+      line-height:1.5;
+    }
+
+    .topbar{
+      margin-top:18px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+    }
+
+    .score{
+      background:var(--primary-soft);
+      padding:10px 14px;
+      border-radius:14px;
+      font-weight:700;
+    }
+
+    .progress-track{
+      width:100%;
+      height:12px;
+      background:#e5e7eb;
+      border-radius:999px;
+      overflow:hidden;
+      margin-top:14px;
+    }
+
+    .progress-bar{
+      width:0;
+      height:100%;
+      background:var(--primary);
+      transition:width .25s ease;
+    }
+
+    .question{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:20px;
+      padding:22px;
+      margin-bottom:16px;
+      box-shadow:0 6px 18px rgba(15,23,42,.05);
+    }
+
+    .question.correct{
+      border-color:#86efac;
+      background:var(--ok-soft);
+    }
+
+    .question.incorrect{
+      border-color:#fca5a5;
+      background:var(--bad-soft);
+    }
+
+    .question h2{
+      margin:0 0 14px;
+      font-size:1.1rem;
+      line-height:1.4;
+    }
+
+    .options{
+      display:grid;
+      gap:10px;
+    }
+
+    label.option,
+    .pick{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      width:100%;
+      padding:13px 14px;
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:14px;
+      cursor:pointer;
+      font-size:1rem;
+      transition:.15s ease;
+    }
+
+    label.option:hover,
+    .pick:hover{
+      border-color:#93c5fd;
+      background:#f8fbff;
+    }
+
+    .pick.selected{
+      background:var(--primary-soft);
+      border-color:var(--primary);
+      font-weight:700;
+    }
+
+    select{
+      width:100%;
+      padding:13px 14px;
+      border:1px solid var(--border);
+      border-radius:14px;
+      background:#fff;
+      color:var(--text);
+      font-size:1rem;
+    }
+
+    .feedback{
+      margin:12px 0 0;
+      font-weight:700;
+      min-height:20px;
+    }
+
+    .feedback.ok{color:var(--ok)}
+    .feedback.bad{color:var(--bad)}
+    .feedback.warn{color:var(--warn)}
+
+    .actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:22px;
+    }
+
+    button{
+      font:inherit;
+    }
+
+    .btn{
+      border:0;
+      border-radius:14px;
+      padding:13px 18px;
+      font-weight:700;
+      cursor:pointer;
+      min-height:46px;
+    }
+
+    .btn-primary{
+      background:var(--primary);
+      color:#fff;
+    }
+
+    .btn-secondary{
+      background:#fff;
+      border:1px solid var(--border);
+      color:var(--text);
+    }
+
+    .result{
+      display:none;
+      margin-top:22px;
+      padding:22px;
+      border-radius:18px;
+      background:var(--card);
+      border:1px solid var(--border);
+      box-shadow:var(--shadow);
+    }
+
+    .result.show{display:block}
+
+    .result h3{
+      margin:0 0 8px;
+      font-size:1.4rem;
+    }
+
+    .small{
+      font-size:.92rem;
+      color:var(--muted);
+    }
+
+    .footer{
+      margin-top:28px;
+      text-align:center;
+      color:var(--muted);
+      font-size:.85rem;
+    }
+
+    @media (max-width:600px){
+      .wrapper{padding:14px 10px 30px}
+      .hero,.question{padding:17px;border-radius:16px}
+      .actions{flex-direction:column}
+      .btn{width:100%}
+    }
+  </style>
+</head>
+
+<body>
+  <main class="wrapper">
+    <section class="hero">
+      <h1>🌍 La desigualdad económica</h1>
+      <p class="subtitle">
+        Actividad interactiva de repaso. Responde las 10 preguntas y pulsa
+        <strong>Corregir actividad</strong> para obtener feedback inmediato.
+      </p>
+
+      <div class="topbar">
+        <div class="score">Puntuación: <span id="score">0</span>/10</div>
+        <div class="small">Funciona completamente sin conexión</div>
+      </div>
+
+      <div class="progress-track">
+        <div id="progress" class="progress-bar"></div>
+      </div>
+    </section>
+
+    <form id="quizForm">
+
+      <section class="question" data-answer="producir, distribuir y consumir">
+        <h2>1. ¿Qué tres acciones engloba la actividad económica?</h2>
+        <div class="options">
+          <label class="option">
+            <input type="radio" name="q1" value="comprar, ahorrar y vender">
+            Comprar, ahorrar y vender
+          </label>
+          <label class="option">
+            <input type="radio" name="q1" value="producir, distribuir y consumir">
+            Producir, distribuir y consumir
+          </label>
+          <label class="option">
+            <input type="radio" name="q1" value="fabricar, estudiar y trabajar">
+            Fabricar, estudiar y trabajar
+          </label>
+        </div>
+        <p class="feedback"></p>
+      </section>
+
+      <section class="question" data-answer="mercado">
+        <h2>2. La actividad económica se desarrolla principalmente en el…</h2>
+        <select name="q2">
+          <option value="">Selecciona una respuesta</option>
+          <option value="colegio">colegio</option>
+          <option value="mercado">mercado</option>
+          <option value="ayuntamiento">ayuntamiento</option>
+        </select>
+        <p class="feedback"></p>
+      </section>
+
+      <section class="question" data-answer="producción">
+        <h2>3. Una persona fabrica pan en una panadería. ¿Qué fase representa?</h2>
+        <div class="options button-options">
+          <button type="button" class="pick" data-value="producción">Producción</button>
+          <button type="button" class="pick" data-value="distribución">Distribución</button>
+          <button type="button" class="pick" data-value="consumo">Consumo</button>
+        </div>
+        <input type="hidden" name="q3">
+        <p class="feedback"></p>
+      </section>
+
+      <section class="question" data-answer="distribución">
+        <h2>4. Un camión traslada productos de una fábrica a las tiendas. Esto es…</h2>
+        <div class="options button-options">
+          <button type="button" class="pick" data-value="producción">Producción</button>
+          <button type="button" class="pick" data-value="distribución">Distribución</button>
+          <button type="button" class="pick" data-value="consumo">Consumo</button>
+        </div>
+        <input type="hidden" name="q4">
+        <p class="feedback"></p>
+      </section>
+
+      <section class="question" data-answer="consumo">
+        <h2>5. Una persona compra un producto en una tienda. ¿En qué fase está?</h2>
+        <select name="q5">
+          <option value="">Selecciona una respuesta</option>
+          <option value="producción">Producción</option>
+          <option value="distribución">Distribución</option>
+          <option value="consumo">Consumo</option>
+        </select>
+        <p class="feedback"></p>
+      </section>
+
+      <section class="question" data-answer="falso">
+        <h2>6. Verdadero o falso: la riqueza se distribuye de forma igual entre todos los países.</h2>
+        <div class="options">
+          <label class="option">
+            <input type="radio" name="q6" value="verdadero">
+            Verdadero
+          </label>
+          <label class="option">
+            <input type="radio" name="q6" value="falso">
+            Falso
+          </label>
+        </div>
+        <p class="feedback"></p>
+      </section>
+
+      <section class="question" data-answer="empresas, familias y estado">
+        <h2>7. ¿Qué agentes intervienen en las actividades económicas?</h2>
+        <div class="options">
+          <label class="option">
+            <input type="radio" name="q7" value="empresas, familias y estado">
+            Empresas, familias y Estado
+          </label>
+          <label class="option">
+            <input type="radio" name="q7" value="solo empresas">
+            Solo las empresas
+          </label>
+          <label class="option">
+            <input type="radio" name="q7" value="solo familias">
+            Solo las familias
+          </label>
+        </div>
+        <p class="feedback"></p>
+      </section>
+
+      <section class="question" data-answer="desarrollado">
+        <h2>8. Un país con gran desarrollo industrial, alta escolarización y buen sistema de salud suele ser…</h2>
+        <select name="q8">
+          <option value="">Selecciona una respuesta</option>
+          <option value="desarrollado">Un país desarrollado</option>
+          <option value="en desarrollo">Un país en vías de desarrollo</option>
+        </select>
+        <p class="feedback"></p>
+      </section>
+
+      <section class="question" data-answer="en desarrollo">
+        <h2>9. ¿En qué grupo aparecen características como escaso desarrollo tecnológico y peor esperanza de vida?</h2>
+        <div class="options button-options">
+          <button type="button" class="pick" data-value="desarrollado">Países desarrollados</button>
+          <button type="button" class="pick" data-value="en desarrollo">Países en vías de desarrollo</button>
+        </div>
+        <input type="hidden" name="q9">
+        <p class="feedback"></p>
+      </section>
+
+      <section class="question" data-answer="estabilidad política">
+        <h2>10. ¿Cuál de estas características corresponde a los países desarrollados?</h2>
+        <div class="options">
+          <label class="option">
+            <input type="radio" name="q10" value="escaso desarrollo tecnológico">
+            Escaso desarrollo tecnológico
+          </label>
+          <label class="option">
+            <input type="radio" name="q10" value="estabilidad política">
+            Estabilidad política
+          </label>
+          <label class="option">
+            <input type="radio" name="q10" value="bajo grado de escolarización">
+            Bajo grado de escolarización
+          </label>
+        </div>
+        <p class="feedback"></p>
+      </section>
+
+      <div class="actions">
+        <button class="btn btn-primary" type="submit">✅ Corregir actividad</button>
+        <button class="btn btn-secondary" id="resetBtn" type="button">🔄 Volver a empezar</button>
+      </div>
+    </form>
+
+    <section id="result" class="result">
+      <h3 id="resultTitle"></h3>
+      <p id="resultMessage"></p>
+      <p id="answeredMessage" class="small"></p>
+    </section>
+
+    <p class="footer">Actividad interactiva de repaso · Archivo HTML offline</p>
+  </main>
+
+  <script>
+    const form = document.getElementById('quizForm');
+    const scoreEl = document.getElementById('score');
+    const progress = document.getElementById('progress');
+    const result = document.getElementById('result');
+    const resultTitle = document.getElementById('resultTitle');
+    const resultMessage = document.getElementById('resultMessage');
+    const answeredMessage = document.getElementById('answeredMessage');
+    const resetBtn = document.getElementById('resetBtn');
+
+    document.querySelectorAll('.pick').forEach(button => {
+      button.addEventListener('click', () => {
+        const question = button.closest('.question');
+        question.querySelectorAll('.pick').forEach(b => b.classList.remove('selected'));
+        button.classList.add('selected');
+        question.querySelector('input[type="hidden"]').value = button.dataset.value;
+      });
+    });
+
+    function getValue(question) {
+      const hidden = question.querySelector('input[type="hidden"]');
+      if (hidden) return hidden.value;
+
+      const checked = question.querySelector('input[type="radio"]:checked');
+      if (checked) return checked.value;
+
+      const select = question.querySelector('select');
+      if (select) return select.value;
+
+      return '';
+    }
+
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+
+      const questions = [...document.querySelectorAll('.question')];
+      let score = 0;
+      let answered = 0;
+
+      questions.forEach(question => {
+        const answer = question.dataset.answer.trim().toLowerCase();
+        const value = getValue(question).trim().toLowerCase();
+        const feedback = question.querySelector('.feedback');
+
+        question.classList.remove('correct', 'incorrect');
+        feedback.className = 'feedback';
+
+        if (!value) {
+          feedback.textContent = '⚠️ Falta responder.';
+          feedback.classList.add('warn');
+          return;
+        }
+
+        answered++;
+
+        if (value === answer) {
+          score++;
+          question.classList.add('correct');
+          feedback.textContent = '✅ ¡Correcto!';
+          feedback.classList.add('ok');
+        } else {
+          question.classList.add('incorrect');
+          feedback.textContent = '❌ Respuesta incorrecta. Revísala e inténtalo de nuevo.';
+          feedback.classList.add('bad');
+        }
+      });
+
+      scoreEl.textContent = score;
+      progress.style.width = `${score * 10}%`;
+
+      let message = '';
+      if (score === 10) {
+        message = '🏆 ¡Excelente! Has dominado el tema.';
+      } else if (score >= 8) {
+        message = '🌟 ¡Muy bien! Solo necesitas repasar un poco.';
+      } else if (score >= 5) {
+        message = '👍 Vas avanzando. Revisa las respuestas incorrectas.';
+      } else {
+        message = '📚 Conviene repasar la ficha y volver a intentarlo.';
+      }
+
+      resultTitle.textContent = `Resultado: ${score}/10`;
+      resultMessage.textContent = message;
+      answeredMessage.textContent = `Has respondido ${answered} de 10 preguntas.`;
+      result.classList.add('show');
+      result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+
+    resetBtn.addEventListener('click', () => {
+      form.reset();
+
+      document.querySelectorAll('.feedback').forEach(f => {
+        f.textContent = '';
+        f.className = 'feedback';
+      });
+
+      document.querySelectorAll('.question').forEach(q => {
+        q.classList.remove('correct', 'incorrect');
+      });
+
+      document.querySelectorAll('.pick').forEach(b => b.classList.remove('selected'));
+      document.querySelectorAll('input[type="hidden"]').forEach(i => i.value = '');
+
+      scoreEl.textContent = '0';
+      progress.style.width = '0%';
+      result.classList.remove('show');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>
